@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GourmetVoice | ספר מתכונים יוקרתי</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="app">
+        <section id="login-screen" class="view">
+            <div class="auth-card">
+                <div class="logo-area">
+                    <i class="fas fa-utensils"></i>
+                    <h2 id="auth-title">התחברות</h2>
+                </div>
+                <div class="input-container">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" placeholder="שם משתמש">
+                </div>
+                <div class="input-container">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" placeholder="סיסמה">
+                </div>
+                <div id="login-actions">
+                    <button class="btn primary" onclick="auth.login()">התחברות</button>
+                    <p class="toggle-text">חדש כאן? <a href="#" onclick="ui.toggleAuthMode(true)">צור חשבון חדש</a></p>
+                </div>
+                <div id="signup-actions" class="hidden">
+                    <button class="btn success" onclick="auth.register()">הרשמה למערכת</button>
+                    <p class="toggle-text">כבר יש לך חשבון? <a href="#" onclick="ui.toggleAuthMode(false)">חזרה להתחברות</a></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="recipes-screen" class="view hidden">
+            <header class="app-header">
+                <h2>המתכונים שלי</h2>
+                <button class="icon-btn" onclick="ui.showView('settings-screen')"><i class="fas fa-cog"></i></button>
+            </header>
+            <div class="search-container">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search" placeholder="חפש מתכון..." oninput="ui.renderRecipes()">
+                </div>
+            </div>
+            <div id="recipes-container" class="recipe-grid"></div>
+            <button class="fab" onclick="ui.showView('add-recipe-screen')"><i class="fas fa-plus"></i></button>
+        </section>
+
+        <section id="detail-screen" class="view hidden">
+            <div class="detail-card">
+                <div id="detail-header-bg" class="detail-header">
+                    <h2 id="recipe-title"></h2>
+                    <div class="time-badge"><i class="far fa-clock"></i> <span id="recipe-time-tag"></span></div>
+                </div>
+                <div class="content-padding">
+                    <div class="section-box">
+                        <h4><i class="fas fa-list-ul"></i> מצרכים:</h4>
+                        <p id="recipe-ingredients"></p>
+                    </div>
+                    <div class="section-box prepare">
+                        <h4><i class="fas fa-fire-alt"></i> אופן ההכנה:</h4>
+                        <p id="recipe-method"></p>
+                    </div>
+                    <button id="speak-btn" class="btn speak-btn" onclick="speech.toggle()"><i class="fas fa-volume-up"></i> הקרא מתכון</button>
+                    <button class="btn secondary" onclick="ui.showView('recipes-screen')">חזרה לרשימה</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="add-recipe-screen" class="view hidden">
+            <div class="add-card">
+                <h3><i class="fas fa-plus-circle"></i> הוספת מתכון</h3>
+                <div class="input-group">
+                    <label>שם המנה</label>
+                    <input type="text" id="new-title" placeholder="למשל: סושי סלמון">
+                </div>
+                <div class="input-group">
+                    <label>זמן הכנה</label>
+                    <input type="text" id="new-time" placeholder="למשל: 30 דקות">
+                </div>
+                <div class="input-group">
+                    <label>מצרכים</label>
+                    <textarea id="new-ingredients" placeholder="רשום מצרכים..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label>הוראות הכנה</label>
+                    <textarea id="new-method" placeholder="שלבי ההכנה..."></textarea>
+                </div>
+                <button class="btn success" onclick="ui.saveNewRecipe()">שמור מתכון</button>
+                <button class="btn secondary" onclick="ui.showView('recipes-screen')">ביטול</button>
+            </div>
+        </section>
+
+        <section id="settings-screen" class="view hidden">
+            <div class="add-card">
+                <h3>הגדרות קול והקראה</h3>
+                <div class="input-group">
+                    <label>זמן המתנה בין שלבים (שניות):</label>
+                    <input type="range" id="delay-range" min="1" max="10" value="2" oninput="ui.updateDelayLabel(this.value)">
+                    <div style="text-align: center; font-weight: bold; color: var(--primary); margin-top: 5px;">
+                        <span id="delay-value">2</span> שניות
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>בחר קול להקראה:</label>
+                    <select id="voice-select"></select>
+                </div>
+                <button class="btn primary" onclick="ui.showView('recipes-screen')">שמור וחזור</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
